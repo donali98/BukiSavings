@@ -1,6 +1,7 @@
 package com.example.bukisavings.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bukisavings.Helper
@@ -23,6 +24,8 @@ class UsuarioViewModel (private val app: Application) : AndroidViewModel(app){
         userRepo = UserRepository(userDao)
         cuentaRepo = CuentaRepository(cuentaDao)
     }
+
+    fun getUser(id:Long) = userRepo.getUser(id)
 
     fun insertUser(user:Usuario,helper:Helper) = viewModelScope.launch(Dispatchers.IO) {
         try{
@@ -50,7 +53,9 @@ class UsuarioViewModel (private val app: Application) : AndroidViewModel(app){
         }catch (e:Exception){
             withContext(Dispatchers.Main){
                 helper.showToast("Operacion Salio Mal")
+                Log.e("CUSTOM",e.toString())
             }
         }
     }
+    fun getAccountsOf(id:Long) = cuentaRepo.getAccountsOf(id)
 }

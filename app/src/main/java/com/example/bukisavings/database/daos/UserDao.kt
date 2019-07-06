@@ -16,4 +16,7 @@ interface UserDao {
     @Query("select * from usuarios where usuario=:user and clave = :pass")
     fun getUser(user:String,pass:String):LiveData<Usuario>
 
+    @Query("select * from usuarios where id=:id")
+    fun getUser(id:Long):LiveData<Usuario>
+
 }
