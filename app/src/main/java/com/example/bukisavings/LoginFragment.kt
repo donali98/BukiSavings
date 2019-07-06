@@ -31,17 +31,22 @@ class LoginFragment : Fragment() {
             Navigation.findNavController(view).navigate(LoginFragmentDirections.actionDestinationLoginToDestinationRegistro())
         }
         view.bt_login_log.setOnClickListener {
-            userViewModel.getUser(view.et_login_usr.text.toString(),view.et_login_pass.text.toString()).observe(this, Observer {
-                try{
-                    if(it!=null){
-                        val nextAction = LoginFragmentDirections.nextAction()
-                        nextAction.userId  = it.id
-                        Navigation.findNavController(view).navigate(nextAction)
+            if(view.et_login_usr.text.toString().isNotBlank() &&view.et_login_pass.text.toString().isNotBlank() ){
+                userViewModel.getUser(view.et_login_usr.text.toString(),view.et_login_pass.text.toString()).hasActiveObservers()
+                userViewModel.getUser(view.et_login_usr.text.toString(),view.et_login_pass.text.toString()).removeObservers(this)
+                userViewModel.getUser(view.et_login_usr.text.toString(),view.et_login_pass.text.toString()).observe(this, Observer {
+                    try{
+                        if(it!=null){
+                            val nextAction = LoginFragmentDirections.nextAction()
+                            nextAction.userId  = it.id
+                            Navigation.findNavController(view).navigate(nextAction)
+                        }
+                    }catch (e:Exception){
+                        Log.e("ERROR",e.toString())
                     }
-                }catch (e:Exception){
-                    Log.e("ERROR",e.toString())
-                }
-            })
+                })
+            }
+
         }
 
         return view

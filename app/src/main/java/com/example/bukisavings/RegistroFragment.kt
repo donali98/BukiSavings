@@ -31,7 +31,10 @@ class RegistroFragment : Fragment(),Helper {
         // Inflate the layout for this fragment
         myView =  inflater.inflate(R.layout.fragment_registro, container, false)
         myView.bt_register_reg.setOnClickListener {
-            userViewModel.insertUser(Usuario(myView.et_register_usr.text.toString(),myView.et_register_pass.text.toString()),this)
+            if(myView.et_register_usr.text.toString().isNotBlank() &&myView.et_register_pass.text.toString().isNotBlank() ){
+                userViewModel.insertUser(Usuario(myView.et_register_usr.text.toString(),myView.et_register_pass.text.toString()),this)
+
+            }
         }
         return myView
     }
