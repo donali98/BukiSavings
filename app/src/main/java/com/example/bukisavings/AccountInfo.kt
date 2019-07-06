@@ -42,9 +42,11 @@ class AccountInfo : Fragment(),Helper,FragmentHelper {
         myView = inflater.inflate(R.layout.fragment_account_info, container, false)
         args = AccountInfoArgs.fromBundle(arguments!!)
         myView.bt_acinfo_aceptar.setOnClickListener {
-            val cuenta = Cuenta(myView.et_acinfo_nombre.text.toString(),fragmentHelper.getUserId())
-            cuenta.monto = myView.et_acinfo_monto.text.toString().toDouble()
-            userViewModel.inserCuentaUsuario(cuenta,this)
+            if(myView.et_acinfo_nombre.text.toString().isNotBlank() && myView.et_acinfo_monto.text.toString().isNotBlank()){
+                val cuenta = Cuenta(myView.et_acinfo_nombre.text.toString(),fragmentHelper.getUserId())
+                cuenta.monto = myView.et_acinfo_monto.text.toString().toDouble()
+                userViewModel.inserCuentaUsuario(cuenta,this)
+            }
 
         }
         return myView
